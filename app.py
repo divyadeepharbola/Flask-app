@@ -32,8 +32,13 @@ def get_d_spacing_for_mineral(mineral_name, reference_data):
             hkl = f"{reference_data[mineral_name]['H'][i]}{reference_data[mineral_name]['K'][i]}{reference_data[mineral_name]['L'][i]}"
             intensity = reference_data[mineral_name]["Intensity"][i]
             mineral_data.append((d_spacing, hkl, intensity))
-        return mineral_data
+        
+        # Sort by intensity in descending order (highest intensity first)
+        mineral_data_sorted = sorted(mineral_data, key=lambda x: -x[2])
+        return mineral_data_sorted
     return None
+
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -49,3 +54,6 @@ def index():
             mineral_data = get_d_spacing_for_mineral(mineral_name, reference_data)
             return render_template("results.html", results=mineral_data, mode="view_mineral", mineral_name=mineral_name)
     return render_template("index.html", minerals=list(reference_data.keys()))
+
+if __name__ == "__main__":
+    app.run(debug=True)
