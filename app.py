@@ -50,5 +50,3 @@ def index():
             return render_template("results.html", results=mineral_data, mode="view_mineral", mineral_name=mineral_name)
     return render_template("index.html", minerals=list(reference_data.keys()))
 
-if __name__ == "__main__":
-    app.run(debug=True)
