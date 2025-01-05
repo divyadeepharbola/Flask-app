@@ -49,4 +49,3 @@ def index():
             mineral_data = get_d_spacing_for_mineral(mineral_name, reference_data)
             return render_template("results.html", results=mineral_data, mode="view_mineral", mineral_name=mineral_name)
     return render_template("index.html", minerals=list(reference_data.keys()))
-
