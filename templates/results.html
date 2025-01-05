@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+</head>
+<body>
+    <h1>Results</h1>
+    {% if mode == "find_minerals" %}
+        <h2>Matching Minerals for D-spacing {{ d_spacing }} Å (Tolerance: {{ tolerance }} Å)</h2>
+        {% if results %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Mineral</th>
+                        <th>D-spacing (Å)</th>
+                        <th>HKL</th>
+                        <th>Intensity</th>
+                        <th>Distance (Å)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mineral, ref_peak, hkl, intensity, distance in results %}
+                    <tr>
+                        <td>{{ mineral }}</td>
+                        <td>{{ ref_peak }}</td>
+                        <td>{{ hkl }}</td>
+                        <td>{{ intensity }}</td>
+                        <td>{{ distance }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No minerals found.</p>
+        {% endif %}
+    {% elif mode == "view_mineral" %}
+        <h2>D-spacing values for {{ mineral_name }}</h2>
+        {% if results %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>D-spacing (Å)</th>
+                        <th>HKL</th>
+                        <th>Intensity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d_spacing, hkl, intensity in results %}
+                    <tr>
+                        <td>{{ d_spacing }}</td>
+                        <td>{{ hkl }}</td>
+                        <td>{{ intensity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No data available for this mineral.</p>
+        {% endif %}
+    {% endif %}
+    <a href="/">Go Back</a>
+</body>
+</html>
