@@ -26,16 +26,23 @@ def find_minerals_by_d_spacing(input_d_spacing, tolerance, reference_data):
 
 # Function to get all D-spacing values for a mineral
 def get_d_spacing_for_mineral(mineral_name, reference_data):
+    # Check if the mineral exists in the reference data
     if mineral_name in reference_data:
         mineral_data = []
+        
+        # Iterate over the D-spacing data for the specific mineral
         for i, d_spacing in enumerate(reference_data[mineral_name]["D-SPACING"]):
+            # Construct the HKL string and get the intensity value
             hkl = f"{reference_data[mineral_name]['H'][i]}{reference_data[mineral_name]['K'][i]}{reference_data[mineral_name]['L'][i]}"
             intensity = reference_data[mineral_name]["Intensity"][i]
+            # Append the data as a tuple to the list
             mineral_data.append((d_spacing, hkl, intensity))
         
-        # Sort by intensity in descending order (highest intensity first)
-        mineral_data_sorted = sorted(mineral_data, key=lambda x: -x[2])
+        # Sort the data for this mineral by intensity in descending order
+        mineral_data_sorted = sorted(mineral_data, key=lambda x: -x[2])  # Sort by intensity (index 2) in descending order
         return mineral_data_sorted
+    
+    # Return None if the mineral is not in the reference data
     return None
 
 
@@ -55,5 +62,3 @@ def index():
             return render_template("results.html", results=mineral_data, mode="view_mineral", mineral_name=mineral_name)
     return render_template("index.html", minerals=list(reference_data.keys()))
 
-if __name__ == "__main__":
-    app.run(debug=True)
